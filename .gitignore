@@ -1,0 +1,49 @@
+# =========================
+# Eclipse-specific files
+# =========================
+.project
+.classpath
+.settings/
+
+# =========================
+# Build output folders
+# =========================
+bin/
+target/
+out/
+
+# =========================
+# IDE & OS specific
+# =========================
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Logs and temporary files
+# =========================
+*.log
+*.tmp
+
+# =========================
+# Java-related
+# =========================
+*.class
+
+# =========================
+# Maven / Gradle (if used)
+# =========================
+# Maven
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
