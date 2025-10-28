@@ -4,12 +4,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 
 public class CarScratch {
 	
+	
+	public static <E> ToIntFunction<E> compareWith(E target, Comparator<E> compare) {
+		return (x) -> {
+			return compare.compare(target, x);
+		};
+	}
 	public class DateCriteria implements SelectionCriteria<LocalDate> {
 
 		@Override
@@ -98,10 +106,15 @@ public class CarScratch {
 		
 		//combining behaviors: OR
 		Predicate<Car> orCombination = redCarCriteria.or(gasLevel7);
-		showAll(getByCriterion(cars, orCombination));
+	//	showAll(getByCriterion(cars, orCombination));
 		
+		Car bert = Car.withGasColorPassengers(5, "Blue");
 		
+		ToIntFunction<Car> compareWithBert = compareWith(bert, Car.gasComparator);
 		
+		for (Car car : cars) {
+			System.out.println("comparing Car " + car + " with bert car: " + compareWithBert.applyAsInt(car));
+		}
 		
 		
 	}

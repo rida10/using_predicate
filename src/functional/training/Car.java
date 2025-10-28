@@ -1,5 +1,6 @@
 package functional.training;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,7 +56,12 @@ public class Car {
 	//starting from java8 -> most apis are making exclusive use of static factories
 	//instead of public constructors wiht some exceptions
 	public static Car withGasColorPassengers(int gas, String color, String... passengers) {
-		List<String> p = Collections.unmodifiableList(Arrays.asList(passengers));
+		List<String> p  = new ArrayList<String>();
+		
+		if(passengers != null) {
+			 p = Collections.unmodifiableList(Arrays.asList(passengers));
+		}
+		
 
 		Car self = new Car(gas, color, p, null);
 		return self;
