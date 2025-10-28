@@ -18,6 +18,17 @@ public class CarScratch {
 			return compare.compare(target, x);
 		};
 	}
+	
+	//factory that returns a Predicate<E>
+	public static <E> Predicate<E> compareGreater(ToIntFunction<E> compare) {
+		return (x) -> {
+			if (compare.applyAsInt(x) < 0) {
+				return true;
+			}
+			return false;
+		};
+	}
+	
 	public class DateCriteria implements SelectionCriteria<LocalDate> {
 
 		@Override
@@ -112,11 +123,13 @@ public class CarScratch {
 		
 		ToIntFunction<Car> compareWithBert = compareWith(bert, Car.gasComparator);
 		
-		for (Car car : cars) {
+		
+		
+		/*for (Car car : cars) {
 			System.out.println("comparing Car " + car + " with bert car: " + compareWithBert.applyAsInt(car));
-		}
+		}*/
 		
-		
+		showAll(getByCriterion(cars, compareGreater(compareWithBert)));
 	}
 
 }
