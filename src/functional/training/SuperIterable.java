@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /*
@@ -34,6 +35,12 @@ public class SuperIterable<E> implements Iterable<E>{
 		return new SuperIterable<>(results);
 	}
 	
+	public void forEvery(Consumer<E> cons) {
+		for (E e : self) {
+			cons.accept(e);
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		//build SuperIterable<E>:
@@ -51,12 +58,19 @@ public class SuperIterable<E> implements Iterable<E>{
 			return false;
 		};
 		
+		Consumer<String> printValue = (s) -> {
+			System.out.println("> " + s);
+		};
+		
 		System.out.println("-------------------------------------------------");
 		SuperIterable<String> upperCase = strings.filter(upperCasePredicate);
 		
 		for(String s: upperCase) {
 			System.out.println("> " + s);
 		}
+		//other way of printing values
+		upperCase.forEvery(s -> System.out.println("> " + s));
+		
 	}
 
 }
