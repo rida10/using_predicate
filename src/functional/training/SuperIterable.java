@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /*
@@ -39,6 +40,18 @@ public class SuperIterable<E> implements Iterable<E>{
 		for (E e : self) {
 			cons.accept(e);
 		}
+		
+	}
+	
+	public <F> SuperIterable<F> map(Function<E, F> op) {
+		List<F> results = new ArrayList<F>();
+		
+		//the forEach function accepts a consumer
+		self.forEach( (e) -> {
+			results.add(op.apply(e));
+		});
+		
+		return new SuperIterable<F>(results);
 	}
 	
 	
@@ -70,6 +83,9 @@ public class SuperIterable<E> implements Iterable<E>{
 		}
 		//other way of printing values
 		upperCase.forEvery(s -> System.out.println("> " + s));
+		System.out.println("-----------------------------------------");
+		strings.map( (x) -> x.toUpperCase()).forEach(printValue);
+		
 		
 	}
 
