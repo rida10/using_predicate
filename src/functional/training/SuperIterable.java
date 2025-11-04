@@ -25,6 +25,7 @@ public class SuperIterable<E> implements Iterable<E>{
 		return self.iterator();
 	}
 	
+	//1- filter behavior
 	public SuperIterable<E> filter(Predicate<E> pred) {
 		List<E> results = new ArrayList<>();
 		
@@ -36,6 +37,7 @@ public class SuperIterable<E> implements Iterable<E>{
 		return new SuperIterable<>(results);
 	}
 	
+	//2- for every behavior (already provided by api using forEach that accepts a consumer)
 	public void forEvery(Consumer<E> cons) {
 		for (E e : self) {
 			cons.accept(e);
@@ -43,8 +45,10 @@ public class SuperIterable<E> implements Iterable<E>{
 		
 	}
 	
+	//3- map behavior that accepts Function<E, F> that may map original type of data to other
+	//example printing passengers for each car if we are dealing with SuperIterable<Car>
 	public <F> SuperIterable<F> map(Function<E, F> op) {
-		List<F> results = new ArrayList<F>();
+		List<F> results = new ArrayList<F>(); //list of other-type result
 		
 		//the forEach function accepts a consumer
 		self.forEach( (e) -> {
@@ -54,16 +58,29 @@ public class SuperIterable<E> implements Iterable<E>{
 		return new SuperIterable<F>(results);
 	}
 	
-	
+	//Testing
 	public static void main(String[] args) {
 		//build SuperIterable<E>:
-		SuperIterable<String> strings = new SuperIterable<String>(
+		SuperIterable<String> colors = new SuperIterable<String>(
 				Arrays.asList("LightCoral", "pink", "Orange", "Gold", "plum", "Blue", "limeGreen"));
 		
 		//as strings is iterable => we are able to iterate on it:
-		for(String s: strings) {
-			System.out.println("> " + s);
+		System.out.println("----Printing all values of colors SuperIterable<String>---------------");
+		var counter = 1;
+		for(String s: colors) {
+			System.out.println( counter++ +"> " + s);
 		}
+		
+		System.out.println("---Other way of printing items of the SuperIterable<E>: is to use Consumer<E> passed "
+				+ "to forEach:");
+		//Consumer<E> passed 
+		
+		colors.forEach( (c) -> {
+			System.out.println("color: " + c);
+		});
+		
+		System.out.println("-------------------------------------------");
+		
 		Predicate<String> upperCasePredicate = (s) -> {
 			if(Character.isUpperCase(s.charAt(0))) {
 				return true;
@@ -71,20 +88,21 @@ public class SuperIterable<E> implements Iterable<E>{
 			return false;
 		};
 		
-		Consumer<String> printValue = (s) -> {
+	Consumer<String> printValue = (s) -> {
 			System.out.println("> " + s);
 		};
 		
 		System.out.println("-------------------------------------------------");
-		SuperIterable<String> upperCase = strings.filter(upperCasePredicate);
+		SuperIterable<String> upperCase = colors.filter(upperCasePredicate);
 		
 		for(String s: upperCase) {
 			System.out.println("> " + s);
 		}
+		
 		//other way of printing values
-		upperCase.forEvery(s -> System.out.println("> " + s));
+	//	upperCase.forEvery(s -> System.out.println("> " + s));
 		System.out.println("-----------------------------------------");
-		strings.map( (x) -> x.toUpperCase()).forEach(printValue);
+	//	strings.map( (x) -> x.toUpperCase()).forEach(printValue);
 		
 		
 	}
