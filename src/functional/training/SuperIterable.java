@@ -25,7 +25,7 @@ public class SuperIterable<E> implements Iterable<E>{
 		return self.iterator();
 	}
 	
-	//1- filter behavior
+	//1- filter behavior: filter behavior uses a predicate to to select its results, same as get by criterion
 	public SuperIterable<E> filter(Predicate<E> pred) {
 		List<E> results = new ArrayList<>();
 		
@@ -50,7 +50,8 @@ public class SuperIterable<E> implements Iterable<E>{
 	public <F> SuperIterable<F> map(Function<E, F> op) {
 		List<F> results = new ArrayList<F>(); //list of other-type result
 		
-		//the forEach function accepts a consumer
+		//the forEach function accepts a consumer. Consumer<E> will return void, here it just adds
+		//items to result list after applying the function on each element of the list
 		self.forEach( (e) -> {
 			results.add(op.apply(e));
 		});
@@ -79,6 +80,15 @@ public class SuperIterable<E> implements Iterable<E>{
 			System.out.println("color: " + c);
 		});
 		
+
+		SuperIterable<Object> lowerCaseColors = colors.map( (s) -> {
+			List<String> result = new ArrayList<String>();
+			
+			
+			result.add(s.toLowerCase());
+			return new SuperIterable<String>(result);
+		});
+		
 		System.out.println("-------------------------------------------");
 		
 		Predicate<String> upperCasePredicate = (s) -> {
@@ -102,7 +112,7 @@ public class SuperIterable<E> implements Iterable<E>{
 		//other way of printing values
 	//	upperCase.forEvery(s -> System.out.println("> " + s));
 		System.out.println("-----------------------------------------");
-	//	strings.map( (x) -> x.toUpperCase()).forEach(printValue);
+		colors.map( (x) -> x.toUpperCase()).forEach(printValue);
 		
 		
 	}
